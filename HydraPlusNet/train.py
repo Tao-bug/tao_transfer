@@ -85,8 +85,8 @@ def main():
 
     # torch.utils.data.DataLoader
     data_set = dataload.myImageFloder(
-        root="./data/PA-100K/release_data/release_data",
-        label="./data/PA-100K/annotation/annotation.mat",
+        root="/home/cmcc/dataset/PA-100K/release_data/release_data",
+        label="/home/cmcc/dataset/PA-100K/annotation/annotation.mat",
         transform=mytransform,
         mode='train'
     )
@@ -203,7 +203,7 @@ def main():
 
             if i % 200 == 0:  # todo: print every 1000 mini-batches
                 logger.info('[  %d  %5d] loss: %.6f' % (epoch, i + 1, loss))
-                print('[  %d  %5d] loss: %.6f' % (epoch, i + 1, loss))
+                # print('[  %d  %5d] loss: %.6f' % (epoch, i + 1, loss))
                 # viz.updateTrace(
                 #     X=np.array([epoch+i/5000.0]),
                 #     Y=np.array([running_loss]),
