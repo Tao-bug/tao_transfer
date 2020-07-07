@@ -145,6 +145,9 @@ def main():
         net = nn.DataParallel(net)
 
     net.train()
+    print(net.parameters())
+    print(net)
+
 
     # weights of different classes
     loss_cls_weight = [1.7226262226969686, 2.6802565029531618, 1.0682133644154836, 2.580801475214588,
@@ -200,6 +203,7 @@ def main():
 
             if i % 200 == 0:  # todo: print every 1000 mini-batches
                 logger.info('[  %d  %5d] loss: %.6f' % (epoch, i + 1, loss))
+                print('[  %d  %5d] loss: %.6f' % (epoch, i + 1, loss))
                 # viz.updateTrace(
                 #     X=np.array([epoch+i/5000.0]),
                 #     Y=np.array([running_loss]),
