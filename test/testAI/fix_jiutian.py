@@ -95,7 +95,7 @@ def algorhtmReq(image_file):
 
 if __name__ == '__main__':
     import os
-    img_path = "/home/cmcc/tao_file/tao_transfer/test/rap/"
+    img_path = "/home/cmcc/tao_file/tao_transfer/test/test_dataset/rap/"
     img_list = os.listdir(img_path)
     if ".DS_Store" in img_list:
         img_list.remove(".DS_Store")
