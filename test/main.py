@@ -91,19 +91,19 @@ def save_mysql(image_name, data_dict, db):
         str(attribute["result"]),
         str(attribute["result_mapping"]),
         # attribute["compare"]["upper_wear"],
-        str(attribute["compare"][0]),
+        attribute["compare"][0] if attribute["compare"][0] != "Null" else None,
         # attribute["compare"]["upper_color"],
-        str(attribute["compare"][1]),
+        attribute["compare"][1] if attribute["compare"][1] != "Null" else None,
         # attribute["compare"]["lower_wear"],
-        str(attribute["compare"][2]),
+        attribute["compare"][2] if attribute["compare"][2] != "Null" else None,
         # attribute["compare"]["lower_color"],
-        str(attribute["compare"][3]),
+        attribute["compare"][3] if attribute["compare"][3] != "Null" else None,
         # attribute["compare"]["bag"],
-        str(attribute["compare"][4]),
+        attribute["compare"][4] if attribute["compare"][4] != "Null" else None,
         # attribute["compare"]["headwear"]
-        str(attribute["compare"][5])
+        attribute["compare"][5] if attribute["compare"][5] != "Null" else None
     )
-    sql = """insert into test_attribute values {}""".format(data)
+    sql = """insert into test_attribute_copy values {}""".format(data)
     # print(sql)
     try:
         cursor.execute(sql)  # 执行sql语句
