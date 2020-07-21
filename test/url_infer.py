@@ -115,8 +115,8 @@ def main_url(path, dataset, name):
     file_list.sort()
     # print(file_list)  # 图片名字
     image_dict = {}
-    for img in file_list[:]:  # TODO [:2]
-        # print(img)
+    for img in file_list[:2]:  # TODO [:2]
+        print(img)
         if name.lower() in ["market", "duke"]:
             image_index = img.split("_")[0]
         else:
@@ -151,7 +151,8 @@ def main_url(path, dataset, name):
             else:
                 attribute = [{'total_num': 0}, {"err": "接口名字有误"}]
             # print(attribute)
-        except:
+        except Exception as e:
+            print(e)
             attribute = [{'total_num': 0}, {"position": "Null", "score": "Null", "upper_wear": "Null", "upper_color": "Null", "lower_wear": "Null", "lower_color": "Null", "bag": "Null", "headwear": "Null", "hat": "Null"}]
 
         # 属性映射

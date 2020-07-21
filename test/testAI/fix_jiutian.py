@@ -37,8 +37,8 @@ def algorhtmReq(image_file):
     data = datas.get('data')
     code = datas.get('code')
     msg = datas.get('msg')
-    height = datas.get('height')
-    width = datas.get('width')
+    height = data.get('height')
+    width = data.get('width')
 
     # print("code=", code, " msg=", msg, " data=", data)
     # data= {'attribute': [{'age': 'old', 'backpack': 'no', 'bag': 'no', 'boots': 'yes', 'downColor': 'blue',
