@@ -40,7 +40,7 @@ def algorhtmReq(image_file):
     height = datas.get('height')
     width = datas.get('width')
 
-    print("code=", code, " msg=", msg, " data=", data)
+    # print("code=", code, " msg=", msg, " data=", data)
     # data= {'attribute': [{'age': 'old', 'backpack': 'no', 'bag': 'no', 'boots': 'yes', 'downColor': 'blue',
     # 'downShort': 'no', 'downType': 'Pattern', 'facing': 'front', 'glasses': 'yes', 'handbag': 'no', 'hat': 'no',
     # 'holdObjectFront': 'no', 'isFemale': 'no', 'longHair': 'no', 'lowClothPants': 'yes', 'shoesLight': 'no',
@@ -86,7 +86,7 @@ def algorhtmReq(image_file):
         # headwear
         attributes_dict["headwear"] = i["hat"]
 
-        result_dict = {"position": [i["xmin"], i["ymax"], i["xmax"]-i["xmin"], i["ymax"]-i["ymin"]], "score": "Null"}
+        result_dict = {"position": [i["xmin"], i["ymax"], width, height], "score": "Null"}
 
         result_dict.update(attributes_dict)
         result_list.append(result_dict)
