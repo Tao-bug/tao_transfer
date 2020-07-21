@@ -75,7 +75,7 @@ def url_attribute_map(attribute_list, name):
     return attribute_list
 
 
-def dataset_attribute_map(images_dict):
+def dataset_attribute_map(images_dict, dataset):
     """属性映射"""
     images_dict = json.loads(images_dict)
     # 属性值为空列表，代表不具备该属性
@@ -173,3 +173,7 @@ def create_mysql_table():
         db.rollback()       # 如果发生错误则回滚
         print("sql语句有误")
     db.close()
+
+
+if __name__ == '__main__':
+    create_mysql_table()
