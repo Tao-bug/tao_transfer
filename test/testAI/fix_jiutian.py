@@ -94,6 +94,14 @@ def algorhtmReq(image_file):
 
 
 if __name__ == '__main__':
-    img_file = "/Users/tao/Desktop/testAI/images/20200608121731.jpg"
-    result = algorhtmReq(img_file)
-    print(result)
+    import os
+    img_path = "/home/cmcc/tao_file/tao_transfer/test/rap/"
+    img_list = os.listdir(img_path)
+    if ".DS_Store" in img_list:
+        img_list.remove(".DS_Store")
+    img_list.sort()
+    for i in img_list[:2]:
+        print(i)
+        img_file = os.path.join(img_path, i)
+        result = algorhtmReq(img_file)
+        print(result)
