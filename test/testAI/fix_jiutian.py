@@ -69,6 +69,8 @@ def algorhtmReq(image_file):
             attributes_dict["upper_wear"] = "连衣裙"
         elif i["lowClothPants"] == "no" and i["upShort"] == "no":
             attributes_dict["upper_wear"] = "长袖"
+        elif i["lowClothPants"] == "no" and i["upShort"] == "yes":
+             attributes_dict["upper_wear"] = "短袖"
         # upper_color
         attributes_dict["upper_color"] = i["upColor"]
         # lower_wear
