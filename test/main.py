@@ -24,21 +24,21 @@ def data_from_json(dataset_name, url_name=None):
 
     if url_name:
         # 原始数据---从提前存好的json
-        old_path = "/Users/tao/Desktop/test/dataset_url_json_old/" + dataset_name + "_" + url_name + ".json"
+        old_path = "/home/cmcc/tao_file/tao_transfer/test/dataset_url_json_old/" + dataset_name + "_" + url_name + ".json"
         old_data = open_json(old_path)
         old_data = json.loads(old_data)
         # 映射后的数据---从提前存好的json
-        new_path = "/Users/tao/Desktop/test/dataset_url_json/" + dataset_name + "_" + url_name + ".json"
+        new_path = "/home/cmcc/tao_file/tao_transfer/test/dataset_url_json/" + dataset_name + "_" + url_name + ".json"
         new_data = open_json(new_path)
         new_data = json.loads(new_data)
         return old_data, new_data
     else:
         # 原始数据
-        old_path = "/Users/tao/Desktop/test/dataset_json_old/" + dataset_name + "_mat.json"
+        old_path = "/home/cmcc/tao_file/tao_transfer/test/dataset_json_old/" + dataset_name + "_mat.json"
         old_data = open_json(old_path)
         old_data = json.loads(old_data)
         # 映射后的数据
-        new_path = "/Users/tao/Desktop/test/dataset_json/" + dataset_name + "_mat.json"
+        new_path = "/home/cmcc/tao_file/tao_transfer/test/dataset_json/" + dataset_name + "_mat.json"
         new_data = open_json(new_path)
         new_data = json.loads(new_data)
         return old_data, new_data
@@ -213,7 +213,7 @@ def start(path, dataset, url_name):
 
 
 if __name__ == '__main__':
-    test_image_path = "/Users/tao/Desktop/test/test_dataset"  # 查询图片的路径
+    test_image_path = "/home/cmcc/tao_file/tao_transfer/test/test_dataset"  # 查询图片的路径
     dataset_name = "rap"  # 查询图片所属数据集
     url_name = "jiutian"  # "baidu" "jingdong" "kuangshi" "jiutian"   "meitu" "yingshi"
     # url_name_list = ["baidu", "jingdong", "kuangshi", "meitu", "yingshi", "jiutian"]

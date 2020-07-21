@@ -177,10 +177,10 @@ if __name__ == '__main__':
 
     # 保存json
     # 映射前
-    save_mat_path = "/Users/tao/Desktop/test/dataset_url_json_old/"
+    save_mat_path = "/home/cmcc/tao_file/tao_transfer/test/dataset_url_json_old/"
     # 映射后
-    # with open("/Users/tao/Desktop/test/dataset_url_json_old/rap_yingshi.json", "r") as f:
+    # with open("/home/cmcc/tao_file/tao_transfer/test/dataset_url_json_old/rap_yingshi.json", "r") as f:
     #     result = f.read()
-    # save_mat_path = "/Users/tao/Desktop/test/dataset_url_json/"
+    # save_mat_path = "/home/cmcc/tao_file/tao_transfer/test/dataset_url_json/"
 
     save_json(result, dataset_name, url_name, save_mat_path)
