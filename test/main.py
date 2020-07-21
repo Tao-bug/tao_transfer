@@ -162,7 +162,7 @@ def start(path, dataset, url_name):
         attribute_dict["attribute"] = dataset_attribute_dict_old
         attribute_dict["attribute_mapping"] = dataset_attribute_dict
         # 公司名字
-        company = {"baidu": "百度", "jingdong": "京东", "kuangshi": "旷世", "meitu": "美图", "yingshi": "萤石"}
+        company = {"baidu": "百度", "jingdong": "京东", "kuangshi": "旷世", "meitu": "美图", "yingshi": "萤石", "jiutian": "九天"}
         attribute_dict["company"] = company[url_name]
         # url
         url_attribute_list_old = url_dict_old[img]
@@ -215,8 +215,8 @@ def start(path, dataset, url_name):
 if __name__ == '__main__':
     test_image_path = "/Users/tao/Desktop/test/test_dataset"  # 查询图片的路径
     dataset_name = "rap"  # 查询图片所属数据集
-    url_name = "yingshi"  # "baidu" "jingdong" "kuangshi"    "meitu" "yingshi"
-    # url_name_list = ["baidu", "jingdong", "kuangshi", "meitu", "yingshi"]
+    url_name = "jiutian"  # "baidu" "jingdong" "kuangshi" "jiutian"   "meitu" "yingshi"
+    # url_name_list = ["baidu", "jingdong", "kuangshi", "meitu", "yingshi", "jiutian"]
     # for url_name in url_name_list:
     #     start(test_image_path, dataset_name, url_name)
 

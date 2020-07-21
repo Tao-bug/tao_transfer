@@ -85,8 +85,7 @@ def algorhtmReq(image_file):
             attributes_dict["bag"] = "有"
         # headwear
         attributes_dict["headwear"] = i["hat"]
-
-        result_dict = {"position": [i["xmin"], i["ymax"], width, height], "score": "Null"}
+        result_dict = {"position": [i["xmin"]*width, i["ymin"]*height, (i["xmax"]-i["xmin"])*width, (i["ymax"]-i["ymin"])*height], "score": "Null"}
 
         result_dict.update(attributes_dict)
         result_list.append(result_dict)

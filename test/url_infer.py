@@ -7,6 +7,7 @@ from testAI import fix_jingdong
 from testAI import fix_kuangshi
 from testAI import fix_meitu
 from testAI import fix_yingshi
+from testAI import fix_jiutian
 
 
 def infer(method_name, image_file):
@@ -143,6 +144,10 @@ def main_url(path, dataset, name):
             elif name == "yingshi":
                 method_name = fix_yingshi
                 attribute = infer(method_name, image_file)
+            # 九天
+            elif name == "jiutian":
+                method_name = fix_jiutian
+                attribute = infer(method_name, image_file)
             else:
                 attribute = [{'total_num': 0}, {"err": "接口名字有误"}]
             # print(attribute)
@@ -162,8 +167,8 @@ if __name__ == '__main__':
     dataset_path = "test_dataset/"
     # 数据集 "peta"  "pa-100k" "market" "duke" "rap" "test" "APY181031001"
     dataset_name = "rap"
-    # 接口名字 "baidu" "jingdong" "kuangshi"    "meitu" "yingshi"
-    url_name = "yingshi"
+    # 接口名字 "baidu" "jingdong" "kuangshi" "jiutian"   "meitu" "yingshi"
+    url_name = "jiutian"
     # r = main(dataset_path, dataset_name, url_name)
     # print(json.loads(r), len(json.loads(r)))
 
