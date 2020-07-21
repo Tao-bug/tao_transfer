@@ -34,6 +34,7 @@ def algorhtmReq(image_file):
     params = {}
     re = requests.post(url, data={"image": img})
     datas = json.loads(re.content)
+    print(datas)
     data = datas.get('data')
     code = datas.get('code')
     msg = datas.get('msg')
@@ -97,13 +98,14 @@ if __name__ == '__main__':
     import os
     import time
     img_path = "/home/cmcc/tao_file/tao_transfer/test/test_dataset/rap/"
-    img_list = os.listdir(img_path)
-    if ".DS_Store" in img_list:
-        img_list.remove(".DS_Store")
-    img_list.sort()
-    for img in img_list[:2]:
-        print(img)
-        img_file = os.path.join(img_path, img)
-        result = algorhtmReq(img_file)
-        print(result)
-        time.sleep(1)
+    img_file = "/home/cmcc/tao_file/tao_transfer/test/test_dataset/rap/CAM31-2014-04-19-20140419111611-20140419112043-tarid130-frame1198-line1.png"
+    #img_list = os.listdir(img_path)
+    #if ".DS_Store" in img_list:
+    #    img_list.remove(".DS_Store")
+    #img_list.sort()
+    #for img in img_list[:2]:
+    #    print(img)
+    #    img_file = os.path.join(img_path, img)
+    result = algorhtmReq(img_file)
+    print(result)
+    time.sleep(1)
