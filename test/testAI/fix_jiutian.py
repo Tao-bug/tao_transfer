@@ -37,6 +37,8 @@ def algorhtmReq(image_file):
     data = datas.get('data')
     code = datas.get('code')
     msg = datas.get('msg')
+    height = datas.get('height')
+    width = datas.get('width')
 
     print("code=", code, " msg=", msg, " data=", data)
     # data= {'attribute': [{'age': 'old', 'backpack': 'no', 'bag': 'no', 'boots': 'yes', 'downColor': 'blue',
@@ -58,11 +60,12 @@ def algorhtmReq(image_file):
         attributes_dict = {"upper_wear": "Null", "upper_color": "Null", "lower_wear": "Null", "lower_color": "Null",
                            "bag": "Null", "headwear": "Null"}
         # upper_wear
-        upper_wear_dict = {'topLong': 'topLong', 'upShort': 'upShort'}
-        # for key in ["topLong", "upShort"]:
-        for key in upper_wear_dict:
-            if i[key] == "yes":
-                attributes_dict["upper_wear"] = upper_wear_dict[key]
+        if i["lowClothPants"] == "yes" and i["upShort"] == "yes":
+            attributes_dict["upper_wear"] = "短袖"
+        elif i["lowClothPants"] == "yes" and i["upShort"] == "no":
+            attributes_dict["upper_wear"] = "长袖"
+        elif i["lowClothPants"] == "no" and i["topLong"] == "yes":
+            attributes_dict["upper_wear"] = "连衣裙"
         # upper_color
         attributes_dict["upper_color"] = i["upColor"]
         # lower_wear
@@ -71,10 +74,8 @@ def algorhtmReq(image_file):
             attributes_dict["lower_wear"] = "短裤"
         elif i["lowClothPants"] == "yes" and i["downShort"] == "no":
             attributes_dict["lower_wear"] = "长裤"
-        elif i["lowClothPants"] == "no":
+        elif i["lowClothPants"] == "no" and i["topLong"] == "no":
             attributes_dict["lower_wear"] = "裙子"
-        else:
-            attributes_dict["lower_wear"] = "未知"
         # lower_color
         attributes_dict["lower_color"] = i["downColor"]
         # bag
@@ -101,9 +102,9 @@ if __name__ == '__main__':
     if ".DS_Store" in img_list:
         img_list.remove(".DS_Store")
     img_list.sort()
-    for i in img_list[:2]:
-        print(i)
-        img_file = os.path.join(img_path, i)
+    for img in img_list[:2]:
+        print(img)
+        img_file = os.path.join(img_path, img)
         result = algorhtmReq(img_file)
         print(result)
         time.sleep(1)
