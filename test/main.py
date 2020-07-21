@@ -91,20 +91,20 @@ def save_mysql(image_name, data_dict, db):
         str(attribute["result"]),
         str(attribute["result_mapping"]),
         # attribute["compare"]["upper_wear"],
-        attribute["compare"][0] if attribute["compare"][0] != "Null" else "",
+        attribute["compare"][0] if attribute["compare"][0] != "Null" else None,
         # attribute["compare"]["upper_color"],
-        attribute["compare"][1] if attribute["compare"][1] != "Null" else "",
+        attribute["compare"][1] if attribute["compare"][1] != "Null" else None,
         # attribute["compare"]["lower_wear"],
-        attribute["compare"][2] if attribute["compare"][2] != "Null" else "",
+        attribute["compare"][2] if attribute["compare"][2] != "Null" else None,
         # attribute["compare"]["lower_color"],
-        attribute["compare"][3] if attribute["compare"][3] != "Null" else "",
+        attribute["compare"][3] if attribute["compare"][3] != "Null" else None,
         # attribute["compare"]["bag"],
-        attribute["compare"][4] if attribute["compare"][4] != "Null" else "",
+        attribute["compare"][4] if attribute["compare"][4] != "Null" else None,
         # attribute["compare"]["headwear"]
-        attribute["compare"][5] if attribute["compare"][5] != "Null" else ""
+        attribute["compare"][5] if attribute["compare"][5] != "Null" else None
     )
     sql = """insert into test_attribute_copy values {}""".format(data)
-    # print(sql)
+    print(sql)
     try:
         cursor.execute(sql)  # 执行sql语句
         db.commit()  # 提交到数据库执行
