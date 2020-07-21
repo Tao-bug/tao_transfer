@@ -155,7 +155,7 @@ def main_url(path, dataset, name):
             attribute = [{'total_num': 0}, {"position": "Null", "score": "Null", "upper_wear": "Null", "upper_color": "Null", "lower_wear": "Null", "lower_color": "Null", "bag": "Null", "headwear": "Null", "hat": "Null"}]
 
         # 属性映射
-        # attribute = attribute_map(attribute, name)
+        attribute = attribute_map(attribute, name)
 
         image_dict[image_index] = attribute  # 有人数统计
     image_dict = json.dumps(image_dict, ensure_ascii=False)  # ensure_ascii=False不转译汉字
@@ -172,8 +172,8 @@ if __name__ == '__main__':
     # r = main(dataset_path, dataset_name, url_name)
     # print(json.loads(r), len(json.loads(r)))
 
-    # result = main_url(dataset_path, dataset_name, url_name)
-    # print(json.loads(result), len(json.loads(result)))
+    #result = main_url(dataset_path, dataset_name, url_name)
+    #print(json.loads(result), len(json.loads(result)))
 
     # 保存json
     # 映射前
