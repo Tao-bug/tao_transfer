@@ -38,7 +38,7 @@ def algorhtmReq(image_file):
     code = datas.get('code')
     msg = datas.get('msg')
 
-    # print("code=", code, " msg=", msg, " data=", data)
+    print("code=", code, " msg=", msg, " data=", data)
     # data= {'attribute': [{'age': 'old', 'backpack': 'no', 'bag': 'no', 'boots': 'yes', 'downColor': 'blue',
     # 'downShort': 'no', 'downType': 'Pattern', 'facing': 'front', 'glasses': 'yes', 'handbag': 'no', 'hat': 'no',
     # 'holdObjectFront': 'no', 'isFemale': 'no', 'longHair': 'no', 'lowClothPants': 'yes', 'shoesLight': 'no',
@@ -95,6 +95,7 @@ def algorhtmReq(image_file):
 
 if __name__ == '__main__':
     import os
+    import time
     img_path = "/home/cmcc/tao_file/tao_transfer/test/test_dataset/rap/"
     img_list = os.listdir(img_path)
     if ".DS_Store" in img_list:
@@ -105,3 +106,4 @@ if __name__ == '__main__':
         img_file = os.path.join(img_path, i)
         result = algorhtmReq(img_file)
         print(result)
+        time.sleep(1)
