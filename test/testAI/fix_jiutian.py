@@ -100,7 +100,7 @@ if __name__ == '__main__':
     import os
     import time
     img_path = "/home/cmcc/tao_file/tao_transfer/test/test_dataset/rap/"
-    img_file = "/home/cmcc/tao_file/tao_transfer/test/test_dataset/rap/CAM31-2014-04-19-20140419111611-20140419112043-tarid130-frame1198-line1.png"
+    img_file = "/home/cmcc/tao_file/tao_transfer/test/test_dataset/rap/CAM01-2014-02-17-20140217101428-20140217102828-tarid69-frame4207-line1.png"
     #img_list = os.listdir(img_path)
     #if ".DS_Store" in img_list:
     #    img_list.remove(".DS_Store")
