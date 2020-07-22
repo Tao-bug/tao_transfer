@@ -77,7 +77,7 @@ def algorhtmReq(img_file):
     # print(ss)
 
     # AIBeauty_url = "https://openapi.mtlab.meitu.com/v1/HumanDetect?api_key=jX5MVzXFR5QJbTBrM5_0oKWRtEPhxopT&api_secret=85Tg83j_Psxe1B3CRFTybR4VFTO98FGB"
-    AIBeauty_url = "https://openapi.mtlab.meitu.com/v1/HumanDetect?api_key=Mrv2ISUXs2HH8D2mbZBGMCxQ3AM5Wk9T&api_secret=q5ctr25eON1up13djSABhG7xJjixzOWJ"
+    AIBeauty_url = "https://openapi.mtlab.meitu.com/v1/HumanDetect?api_key=NVU00gBh199yQl1qhb_aXwAaeyCXn48e&api_secret=srrQmOIvzShECalRMrI4pQ4X6C54d_XH"
     headers = {'Content-Type': 'application/json'}
     response = requests.post(AIBeauty_url, data=ss, headers=headers)
     ss2 = response.json()
@@ -115,7 +115,7 @@ def algorhtmReq(img_file):
             }
         )
         # AIBeauty_url = "https://openapi.mtlab.meitu.com/v1/apperal?api_key=jX5MVzXFR5QJbTBrM5_0oKWRtEPhxopT&api_secret=85Tg83j_Psxe1B3CRFTybR4VFTO98FGB"
-        AIBeauty_url = "https://openapi.mtlab.meitu.com/v1/apperal?api_key=Mrv2ISUXs2HH8D2mbZBGMCxQ3AM5Wk9T&api_secret=q5ctr25eON1up13djSABhG7xJjixzOWJ"
+        AIBeauty_url = "https://openapi.mtlab.meitu.com/v1/apperal?api_key=NVU00gBh199yQl1qhb_aXwAaeyCXn48e&api_secret=srrQmOIvzShECalRMrI4pQ4X6C54d_XH"
         headers = {'Content-Type': 'application/json'}
         response = requests.post(AIBeauty_url, data=ss, headers=headers)
         ss2 = response.json()
@@ -151,9 +151,9 @@ def algorhtmReq(img_file):
 
 if __name__ == "__main__":
     import os
-    # img_file = '/Users/tao/Desktop/testAI/images/123.png'
+    img_file = '/Users/tao/Desktop/testAI/images/123.png'
     # img_file = '/Users/tao/Desktop/WechatIMG5.png'
-    img_file = '/Users/tao/Desktop/testAI/images/c7b84b32578624c1556adaae765bf62.jpg'  # detect no face
+    # img_file = '/Users/tao/Desktop/testAI/images/c7b84b32578624c1556adaae765bf62.jpg'  # detect no face
     # img_file = '/Users/tao/Desktop/test/test_dataset/test/CAM17-2014-03-05-20140305114713-20140305115201-tarid371-frame3150-line1.png'
     # img_file = '/Users/tao/Desktop/test/test_dataset/rap/CAM01-2013-12-23-20131223120147-20131223120735-tarid7-frame781-line1.png'
 
