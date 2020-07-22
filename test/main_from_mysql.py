@@ -134,12 +134,11 @@ def data_from_mysql():
 def save_mysql(image_name, data_dict, db):
     cursor = db.cursor()  # 创建一个游标对象 cursor
     attribute = data_dict[image_name]
-    sql = "insert into test_attribute_copy values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+    sql = "insert into test_attribute_newattribute values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
     data = (
         str(attribute["image_path"]),
         str(attribute["image_quality"]),
         str(attribute["attribute"]),
-        str(attribute["attribute_mapping"]),
         str(attribute["company"]),
         str(attribute["result"]),
         str(attribute["result_mapping"]),
@@ -178,10 +177,8 @@ def start(path, dataset, url_name):
     if ".DS_Store" in file_list:
         file_list.remove(".DS_Store")
     file_list.sort()
-    # 数据集---对于提前保存好的json数据
-    dataset_dict_old, dataset_dict_new = data_from_json(dataset)
-    # 接口---对于提前保存好的json数据
-    # url_dict_old, url_dict_new = data_from_json(dataset, url_name)
+    # 数据集
+    dataset_dict = data_from_mysql()
 
     # 打开数据库连接
     db = pymysql.connect(host="172.31.242.25", user="gbase", password="ots_analyse_gbase", database="test",
@@ -206,10 +203,8 @@ def start(path, dataset, url_name):
         img = img.split(".")[0]
         # 一张图片整体属性
         # dataset
-        dataset_attribute_dict_old = dataset_dict_old[img]
-        dataset_attribute_dict = dataset_dict_new[img]
-        attribute_dict["attribute"] = dataset_attribute_dict_old
-        attribute_dict["attribute_mapping"] = dataset_attribute_dict
+        dataset_attribute_dict = dataset_dict[img]
+        attribute_dict["attribute"] = dataset_attribute_dict
         # 公司名字
         company = {"baidu": "百度", "jingdong": "京东", "kuangshi": "旷世", "meitu": "美图", "yingshi": "萤石", "jiutian": "九天"}
         attribute_dict["company"] = company[url_name]
@@ -258,9 +253,8 @@ def start(path, dataset, url_name):
 if __name__ == '__main__':
     test_image_path = os.getcwd() + "/test_dataset"  # 查询图片的路径
     dataset_name = "rap"  # 查询图片所属数据集
-    url_name = "yingshi"  # "baidu" "jingdong" "kuangshi" "jiutian"   "meitu" "yingshi"
+    url_name = "baidu"  # "baidu" "jingdong" "kuangshi" "jiutian"   "meitu" "yingshi"
     # url_name_list = ["baidu", "jingdong", "kuangshi", "meitu", "yingshi", "jiutian"]
     # for url_name in url_name_list:
     #     start(test_image_path, dataset_name, url_name)
-    # start(test_image_path, dataset_name, url_name)
-    data_from_mysql()
+    start(test_image_path, dataset_name, url_name)

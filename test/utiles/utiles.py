@@ -81,7 +81,7 @@ def dataset_attribute_map(images_dict, dataset):
     # 属性值为空列表，代表不具备该属性
     # 属性映射
     # upper_wear_stander_dict = {"长袖", "短袖", "连衣裙"}
-    upper_wear_stander_dict = {"Null": "未知", "upper_wear_null":"未知","ub-Shirt":"短袖", "ub-Sweater":"长袖", "ub-Vest":"短袖","ub-TShirt":"短袖","ub-Cotton":"长袖","ub-Jacket":"长袖","ub-SuitUp":"长袖","ub-Tight":"长袖","ub-ShortSleeve":"短袖","ub-Others":"未知", "lb-Dress":"连衣裙",
+    upper_wear_stander_dict = {"Null": "未知", "upper_wear_null":"未知","ub-Shirt":"长袖", "ub-Sweater":"长袖", "ub-Vest":"短袖","ub-TShirt":"短袖","ub-Cotton":"长袖","ub-Jacket":"长袖","ub-SuitUp":"长袖","ub-Tight":"长袖","ub-ShortSleeve":"短袖","ub-Others":"未知", "lb-Dress":"连衣裙",
                                "upperBodyFormal":"长袖","upperBodyJacket":"长袖","upperBodyLongSleeve":"长袖", "upperBodyNoSleeve":"短袖","upperBodyPlaid":"长袖","upperBodyShortSleeve":"短袖","upperBodyThinStripes":"长袖","upperBodySuit":"长袖","upperBodySweater":"长袖",
                                "upperBodyThickStripes":"长袖","upperBodyTshirt":"短袖","upperBodyOther":"未知","upperBodyVNeck":"短袖","ShortSleeve":"短袖","LongSleeve":"长袖","LongCoat":"长袖","long upper body clothing":"长袖","short upper body clothing":"短袖","dress":"连衣裙",
                                "long sleeve":"长袖","short sleeve":"短袖",}
@@ -167,7 +167,6 @@ def create_mysql_table():
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8"""
     try:
         cursor.execute(sql)  # 执行sql语句
-        # db.commit()  # 提交到数据库执行
         print("表创建成功")
     except:
         db.rollback()       # 如果发生错误则回滚
