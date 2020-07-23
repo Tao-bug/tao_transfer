@@ -85,7 +85,7 @@ def algorhtmReq(img_file):
     for i in range(len(dict_value['humanDetectionResult'])):
         # 从图像数组中特征提取
         stander = {1: '帽子', 5: '上衣', 6: '连衣裙', 7: '大衣', 9: '短裤', 10: '连体裤', 12: '裙子', }
-        stander_key = {1: 'hat', 5: 'upper_wear', 6: 'upper_wear', 7: 'upper_wear', 9: 'lower_wear', 10: 'lower_wear',
+        stander_key = {1: 'headwear', 5: 'upper_wear', 6: 'upper_wear', 7: 'upper_wear', 9: 'lower_wear', 10: 'lower_wear',
                        12: 'lower_wear', }
         stander_dict = {}
         for j in stander.keys():
@@ -112,6 +112,7 @@ def algorhtmReq(img_file):
 
 if __name__ == '__main__':
     # img_file = '/Users/tao/Desktop/testAI/images/2b81f41104cf3b31673a2a4227a3f35.jpg'  # 上传图片的位置
-    img_file = '/Users/tao/Desktop/testAI/images/123.png'
+    # img_file = '/Users/tao/Desktop/testAI/images/123.png'
+    img_file = '/Users/tao/Desktop/WechatIMG115.png'
     result = algorhtmReq(img_file)
     print(result)

@@ -34,7 +34,7 @@ def url_attribute_map(attribute_list, name):
                                    "大衣": "长袖", "T恤": "短袖", "衬衫": "长袖", "毛衣": "长袖", "卫衣": "长袖", "风衣": "长袖", "外套": "长袖",
                                    "牛仔夹克": "长袖", "棒球服式外套": "长袖", "正装": "长袖", "棉服": "长袖", "皮夹克": "长袖"}
         # lower_wear_stander_dict = {"长裤", "短裤", "短裙"}
-        lower_wear_stander_dict = {"Null": "Null", "未知": "未知", "长裤": "长裤", "短裤": "短裤", "短裙": "短裙", "裙子": "短裙", "连体裤": "长裤"}
+        lower_wear_stander_dict = {"Null": "Null", "未知": "未知", "不确定": "未知", "长裤": "长裤", "短裤": "短裤", "短裙": "短裙", "裙子": "短裙", "连体裤": "长裤"}
         # color_stander_dict = {"红", "橙", "黄", "绿", "蓝", "紫", "粉", "黑", "白", "灰", "棕", "未知"}
         color_stander_dict = {"Null": "Null", "红": "红", "橙": "橙", "黄": "黄", "绿": "绿", "蓝": "蓝", "紫": "紫", "粉": "粉",
                               "黑": "黑", "白": "白", "灰": "灰", "棕": "棕", "不确定": "未知", "未知": "未知", "混色": "未知", "black": "黑",
@@ -43,7 +43,7 @@ def url_attribute_map(attribute_list, name):
         # bag_stander_dict = {"有", "无"}
         bag_stander_dict = {"Null": "Null", "无背包": "无", "单肩包": "有", "双肩包": "有", "不确定": "有", "不背包": "无", "有":"有", "无":"无"}
         # headwear_stander_dict = {"有", "无"}
-        headwear_stander_dict = {"Null": "Null", "无帽": "无", "普通帽": "有", "安全帽": "有", "yes": "有", "no": "无", "hat": "有", "不戴帽子": "无"}
+        headwear_stander_dict = {"Null": "Null", "无帽": "无", "普通帽": "有", "安全帽": "有", "yes": "有", "no": "无", "hat": "有", "不戴帽子": "无", "戴帽子": "有", "帽子": "有"}
 
         # 原有属性
         for i in range(attribute_list[0]["total_num"]):
@@ -65,13 +65,14 @@ def url_attribute_map(attribute_list, name):
     else:
         upper_wear_stander_dict = {"T恤": "短袖", "衬衫": "长袖", "毛衣": "长袖", "卫衣": "长袖", "风衣": "长袖", "外套": "长袖",
                                    "牛仔夹克": "长袖", "棒球服式外套": "长袖", "正装": "长袖", "大衣": "长袖", "棉服": "长袖",
-                                   "皮夹克": "长袖",
-                                   "长袖": "长袖", "短袖": "短袖", "无袖背心": "短袖", "吊带": "短袖", "未知": "未知"}
+                                   "皮夹克": "长袖", "长袖": "长袖", "短袖": "短袖", "无袖背心": "短袖", "吊带": "短袖", "未知": "未知"}
         for i in range(attribute_list[0]["total_num"]):
             attribute = attribute_list[i + 1]
             for idx in attribute["upper_wear"]:
                 if idx in upper_wear_stander_dict.keys():
-                    attribute["upper_wear"] = upper_wear_stander_dict[idx]
+                    if attribute["upper_wear"] != '长袖' and attribute["upper_wear"] != "短袖":
+                        attribute["upper_wear"] = upper_wear_stander_dict[idx]
+
     return attribute_list
 
 
@@ -175,4 +176,9 @@ def create_mysql_table():
 
 
 if __name__ == '__main__':
-    create_mysql_table()
+    # create_mysql_table()
+    a = [{'total_num': 1}, {'position': [2.827503, 1.228867, 73.172501, 279.749451], 'score': 'Null', 'upper_wear': ['T恤', '无袖背心'], 'upper_color': 'Null', 'lower_wear': 'Null', 'lower_color': 'Null', 'bag': 'Null', 'headwear': 'Null'}]
+    b = "meitu"
+    c = url_attribute_map(a, b)
+    print(c)
+

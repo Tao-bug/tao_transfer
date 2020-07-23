@@ -134,7 +134,7 @@ def data_from_mysql():
 def save_mysql(image_name, data_dict, db):
     cursor = db.cursor()  # 创建一个游标对象 cursor
     attribute = data_dict[image_name]
-    sql = "insert into test_attribute_newattribute values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+    sql = "insert into test_attribute_newattribute_copy_7-23 values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
     data = (
         str(attribute["image_path"]),
         str(attribute["image_quality"]),
