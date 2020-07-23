@@ -253,8 +253,8 @@ def start(path, dataset, url_name):
 if __name__ == '__main__':
     test_image_path = os.getcwd() + "/test_dataset"  # 查询图片的路径
     dataset_name = "rap"  # 查询图片所属数据集
-    # url_name = "meitu"  # "baidu" "jingdong" "kuangshi" "jiutian"   "meitu" "yingshi"
-    url_name_list = ["baidu", "jingdong", "kuangshi", "meitu", "yingshi", "jiutian"]
-    for url_name in url_name_list:
-        start(test_image_path, dataset_name, url_name)
-    # start(test_image_path, dataset_name, url_name)
+    url_name = "yingshi"  # "baidu" "jingdong" "kuangshi" "jiutian"   "meitu" "yingshi"
+    # url_name_list = ["baidu", "jingdong", "kuangshi", "meitu", "yingshi", "jiutian"]
+    # for url_name in url_name_list:
+    #     start(test_image_path, dataset_name, url_name)
+    start(test_image_path, dataset_name, url_name)
