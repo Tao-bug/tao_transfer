@@ -102,7 +102,8 @@ def algorhtmReq(img_file):
     except urllib.error.HTTPError as e:
         # print(e.read().decode('utf-8'))
         return e.read().decode('utf-8')
-
+    # 防止访问过快
+    time.sleep(2)
     # 构建统一格式
     dict_value = get_json_value_by_key(datas, 'humanbodies', results=[])[0]  # 位置信息
     result_list = []
