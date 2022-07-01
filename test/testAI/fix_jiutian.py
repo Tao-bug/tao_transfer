@@ -5,13 +5,14 @@ import base64
 
 def algorhtmReq(image_file):
 
-    url = "http://172.29.168.163/ivr/v1/human_attribute_recognition?access_token="
-
     token = 'b0a36e186445a3a86e44c7d70fdab5f9.1591761679'
 
     with open(image_file, "rb") as f:
         img = base64.b64encode(f.read())
-    url = url + token
+    url = (
+        "http://172.29.168.163/ivr/v1/human_attribute_recognition?access_token="
+        + token
+    )
 
     params = {}
     re = requests.post(url, data={"image": img})
@@ -34,10 +35,9 @@ def algorhtmReq(image_file):
 
     # 构建统一格式
     dict_value_list = data["attribute"]
-    result_list = []
     # 识别人数
     total_dict = {'total_num': len(dict_value_list)}
-    result_list.append(total_dict)
+    result_list = [total_dict]
     for i in dict_value_list:
         # 构建统一字段
         attributes_dict = {"upper_wear": "Null", "upper_color": "Null", "lower_wear": "Null", "lower_color": "Null",
@@ -72,9 +72,16 @@ def algorhtmReq(image_file):
             attributes_dict["bag"] = "有"
         # headwear
         attributes_dict["headwear"] = i["hat"]
-        result_dict = {"position": [i["xmin"]*width, i["ymin"]*height, (i["xmax"]-i["xmin"])*width, (i["ymax"]-i["ymin"])*height], "score": "Null"}
+        result_dict = {
+            "position": [
+                i["xmin"] * width,
+                i["ymin"] * height,
+                (i["xmax"] - i["xmin"]) * width,
+                (i["ymax"] - i["ymin"]) * height,
+            ],
+            "score": "Null",
+        } | attributes_dict
 
-        result_dict.update(attributes_dict)
         result_list.append(result_dict)
     result_list = json.dumps(result_list, ensure_ascii=False)
     return result_list

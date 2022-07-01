@@ -7,6 +7,8 @@ def duke_open_mat(datafile):
     att = mat['duke_attribute']
     all_data = {}
 
+    upper = ["upblack", "upwhite", "upred", "uppurple", "upgray", "upblue", "upgreen", "upbrown"]
+    downer = ["downblack", "downwhite", "downred", "downgray", "downblue", "downgreen", "downbrown"]
     for i in range(len(att[0][0])):
         if i == 0:
             duke_attribute = ['image_index', 'backpack', 'bag', 'handbag', 'boots', 'gender',
@@ -20,23 +22,17 @@ def duke_open_mat(datafile):
                               'upblack', 'upwhite', 'upred', 'upgray', 'upblue', 'upgreen', 'uppurple', 'upbrown']
         w = att[0][0][i]
         for j in range(len(w[0][0][0][0])):
-            a = []
-            data = {}
-            out_data = {}
             wq = len(w[0][0]) - 1
-            a.append(w[0][0][wq][0][j][0])
+            a = [w[0][0][wq][0][j][0]]
             for q in range(len(w[0][0])):
                 a.append(w[0][0][q][0][j])
-            for i in range(len(duke_attribute)):
-                data[duke_attribute[i]] = a[i]
-            # out_data['image_index'] = data['image_index']
-            out_data['clothing'] = "Null"
-            if data['top'] == 1:
-                out_data['clothing'] = ['short upper body clothing']
-            else:
-                out_data['clothing'] = ['long upper body clothing']
-            upper = ["upblack", "upwhite", "upred", "uppurple", "upgray", "upblue", "upgreen", "upbrown"]
-            downer = ["downblack", "downwhite", "downred", "downgray", "downblue", "downgreen", "downbrown"]
+            data = {duke_attribute[i]: a[i] for i in range(len(duke_attribute))}
+            out_data = {
+                'clothing': ['short upper body clothing']
+                if data['top'] == 1
+                else ['long upper body clothing']
+            }
+
             upper_dic = {"upblack": 'black', "upwhite": 'white', "upred": 'red', "uppurple": 'purple', "upgray": 'gray',
                          "upblue": 'blue', "upgreen": 'green', "upbrown": 'brown'}
             downer_dic = {"downblack": 'black', "downwhite": 'white', "downred": 'red', "downgray": 'gray',
@@ -49,21 +45,12 @@ def duke_open_mat(datafile):
             for down in downer:
                 if data[down] == 2:
                     out_data['lower_color'] = [downer_dic[down]]
-            if data["hat"] == 1:
-                out_data['headwear'] = "Null"
-            else:
-                out_data['headwear'] = ['hat']
+            out_data['headwear'] = "Null" if data["hat"] == 1 else ['hat']
             ue_bag = ["backpack", "bag", "handbag"]
             out_data['bag'] = "Null"
             for bbag in ue_bag:
                 if data[bbag] == 2:
                     out_data['bag'] = [bbag]
-            if data['boots'] == 1:
-                out_data['footwear'] = "Null"
-            else:
-                out_data['footwear'] = ['boots']
+            out_data['footwear'] = "Null" if data['boots'] == 1 else ['boots']
             all_data[str(data['image_index'])] = out_data
-    # print(len(all_data))
-    # print(all_data)
-    result_dict = json.dumps(all_data)
-    return result_dict
+    return json.dumps(all_data)

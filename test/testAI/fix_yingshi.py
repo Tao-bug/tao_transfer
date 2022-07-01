@@ -17,7 +17,7 @@ def get_json_value_by_key(in_json, target_key, results=None):
             if key == target_key:  # 如果当前key与目标key相同就将当前key的value添加到输出列表
                 results.append(data)
 
-    elif isinstance(in_json, list) or isinstance(in_json, tuple):  # 如果输入数据格式为list或者tuple
+    elif isinstance(in_json, (list, tuple)):  # 如果输入数据格式为list或者tuple
         for data in in_json:  # 循环当前列表
             get_json_value_by_key(data, target_key, results=results)  # 回归列表的当前的元素
     return results
@@ -38,8 +38,7 @@ def PIL_to_base64(image):
     image.save(output, format='png')
     contents = output.getvalue()
     output.close()
-    string = base64.b64encode(contents)
-    return string
+    return base64.b64encode(contents)
 
 
 def change_img1(file, max_width=4100, max_height=2196, min_width=1600, min_height=1800):
@@ -70,10 +69,7 @@ def algorhtmReq(img_file):
     host = "https://open.ys7.com/api/lapp/token/get?appKey=ec387de50ca04b5ca3d10e5290ebb901&appSecret=5352271e3b6ed93928fcf2aa76072546"
     request_url = "https://open.ys7.com/api/lapp/intelligence/human/analysis/body"
     response = requests.post(host)
-    access_token = None
-    if response:
-        access_token = response.json()["data"]["accessToken"]
-
+    access_token = response.json()["data"]["accessToken"] if response else None
     # 图片处理
     # 图片，分辨率范围：50W~900W像素，图片最大2M；
     # 图片大小 800*600 px -- 4096*2160 px (但宽不能大于4096 px 且高不能大于2160 px)
@@ -93,21 +89,19 @@ def algorhtmReq(img_file):
     # params = {"image": img}
     # print(img)
     params = {"image": string}
-    request_url = "%s?accessToken=%s&dataType=1" % (request_url, access_token)
+    request_url = f"{request_url}?accessToken={access_token}&dataType=1"
     headers = {'content-type': 'application/x-www-form-urlencoded'}
-    response = requests.post(request_url, data=params, headers=headers)
-    datas = None
-    if response:
+    if response := requests.post(request_url, data=params, headers=headers):
         datas = json.loads(response.content)
+    else:
+        datas = None
     # print(datas)
 
     # 构建统一格式
     dict_value = get_json_value_by_key(datas, 'data', results=[])[0]
-    result_list = []
     # 识别人数
     total_dict = {'total_num': len(dict_value)}
-    result_list.append(total_dict)
-
+    result_list = [total_dict]
     for i in dict_value:
         position = i.pop('rect')
         # 构建统一字段
@@ -118,12 +112,17 @@ def algorhtmReq(img_file):
                            "bag": i['bag']['des'],
                            "headwear": i['hat']['des']}
         result_dict = {
-            "position": [int(position['x']/w), int(position['y']/h), int(position['width']/w), int(position['height']/h)],
+            "position": [
+                int(position['x'] / w),
+                int(position['y'] / h),
+                int(position['width'] / w),
+                int(position['height'] / h),
+            ],
             # "position": [int(position['x']/scale), int(position['y']/scale), int(position['width']/scale), int(position['height']/scale)],
             # "position": [position['x'], position['y'], position['width'], position['height']],
-            "score": "Null"
-        }
-        result_dict.update(attributes_dict)
+            "score": "Null",
+        } | attributes_dict
+
         result_list.append(result_dict)
     # print(result_list)
     result_list = json.dumps(result_list, ensure_ascii=False)

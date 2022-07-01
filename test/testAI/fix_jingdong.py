@@ -19,7 +19,7 @@ def get_json_value_by_key(in_json, target_key, results=None):
             if key == target_key:  # 如果当前key与目标key相同就将当前key的value添加到输出列表
                 results.append(data)
 
-    elif isinstance(in_json, list) or isinstance(in_json, tuple):  # 如果输入数据格式为list或者tuple
+    elif isinstance(in_json, (list, tuple)):  # 如果输入数据格式为list或者tuple
         for data in in_json:  # 循环当前列表
             get_json_value_by_key(data, target_key, results=results)  # 回归列表的当前的元素
     return results
@@ -77,18 +77,16 @@ def algorhtmReq(img_file):
     # 构建统一格式
     dict_value = get_json_value_by_key(datas, 'result', results=[])[0]
 
-    result_list = []
     # 识别人数
     total_dict = {'total_num': len(dict_value['humanDetectionResult'])}
-    result_list.append(total_dict)
-
+    result_list = [total_dict]
+    # 从图像数组中特征提取
+    stander = {1: '帽子', 5: '上衣', 6: '连衣裙', 7: '大衣', 9: '短裤', 10: '连体裤', 12: '裙子', }
+    stander_key = {1: 'headwear', 5: 'upper_wear', 6: 'upper_wear', 7: 'upper_wear', 9: 'lower_wear', 10: 'lower_wear',
+                   12: 'lower_wear', }
     for i in range(len(dict_value['humanDetectionResult'])):
-        # 从图像数组中特征提取
-        stander = {1: '帽子', 5: '上衣', 6: '连衣裙', 7: '大衣', 9: '短裤', 10: '连体裤', 12: '裙子', }
-        stander_key = {1: 'headwear', 5: 'upper_wear', 6: 'upper_wear', 7: 'upper_wear', 9: 'lower_wear', 10: 'lower_wear',
-                       12: 'lower_wear', }
         stander_dict = {}
-        for j in stander.keys():
+        for j in stander:
             # print(j)
             for k in dict_value['humanParsingResult'][i]:
                 if j in k:
@@ -101,10 +99,13 @@ def algorhtmReq(img_file):
             attributes_dict[key] = stander_dict[key]
 
         result_dict = {
-            "position": [int(j/scale) for j in dict_value['humanDetectionResult'][i][:4]],
+            "position": [
+                int(j / scale)
+                for j in dict_value['humanDetectionResult'][i][:4]
+            ],
             "score": dict_value['humanDetectionResult'][i][-1],
-        }
-        result_dict.update(attributes_dict)
+        } | attributes_dict
+
         result_list.append(result_dict)
     result_list = json.dumps(result_list)
     return result_list

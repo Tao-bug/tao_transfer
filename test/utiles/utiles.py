@@ -48,20 +48,19 @@ def url_attribute_map(attribute_list, name):
         # 原有属性
         for i in range(attribute_list[0]["total_num"]):
             attribute = attribute_list[i + 1]
-            if attribute["upper_wear"] in upper_wear_stander_dict.keys():
+            if attribute["upper_wear"] in upper_wear_stander_dict:
                 attribute["upper_wear"] = upper_wear_stander_dict[attribute["upper_wear"]]
-            if attribute["upper_color"] in color_stander_dict.keys():
+            if attribute["upper_color"] in color_stander_dict:
                 attribute["upper_color"] = color_stander_dict[attribute["upper_color"]]
-            if attribute["lower_wear"] in lower_wear_stander_dict.keys():
+            if attribute["lower_wear"] in lower_wear_stander_dict:
                 attribute["lower_wear"] = lower_wear_stander_dict[attribute["lower_wear"]]
-            if attribute["lower_color"] in color_stander_dict.keys():
+            if attribute["lower_color"] in color_stander_dict:
                 attribute["lower_color"] = color_stander_dict[attribute["lower_color"]]
-            if attribute["bag"] in bag_stander_dict.keys():
+            if attribute["bag"] in bag_stander_dict:
                 attribute["bag"] = bag_stander_dict[attribute["bag"]]
-            if attribute["headwear"] in headwear_stander_dict.keys():
+            if attribute["headwear"] in headwear_stander_dict:
                 attribute["headwear"] = headwear_stander_dict[attribute["headwear"]]
 
-    # 美图
     else:
         upper_wear_stander_dict = {"T恤": "短袖", "衬衫": "长袖", "毛衣": "长袖", "卫衣": "长袖", "风衣": "长袖", "外套": "长袖",
                                    "牛仔夹克": "长袖", "棒球服式外套": "长袖", "正装": "长袖", "大衣": "长袖", "棉服": "长袖",
@@ -69,9 +68,10 @@ def url_attribute_map(attribute_list, name):
         for i in range(attribute_list[0]["total_num"]):
             attribute = attribute_list[i + 1]
             for idx in attribute["upper_wear"]:
-                if idx in upper_wear_stander_dict.keys():
-                    if attribute["upper_wear"] != '长袖' and attribute["upper_wear"] != "短袖":
-                        attribute["upper_wear"] = upper_wear_stander_dict[idx]
+                if idx in upper_wear_stander_dict and attribute[
+                    "upper_wear"
+                ] not in ['长袖', "短袖"]:
+                    attribute["upper_wear"] = upper_wear_stander_dict[idx]
 
     return attribute_list
 
@@ -107,24 +107,25 @@ def dataset_attribute_map(images_dict, dataset):
             images_dict[img_idx]["lower_wear"] = []
             for i in clothing_list:
                 # upper_wear
-                if i in upper_wear_stander_dict.keys():
+                if i in upper_wear_stander_dict:
                     images_dict[img_idx]["upper_wear"].append(upper_wear_stander_dict[i])
-                # lower_wear
-                elif i in lower_wear_stander_dict.keys():
+                elif i in lower_wear_stander_dict:
                     images_dict[img_idx]["lower_wear"].append(lower_wear_stander_dict[i])
         # upper_color
         if images_dict[img_idx]["upper_color"] != "Null":
             upper_color_list = images_dict[img_idx]["upper_color"]
-            images_dict[img_idx]["upper_color"] = []
-            for i in upper_color_list:
-                if i in color_stander_dict.keys():
-                    images_dict[img_idx]["upper_color"].append(color_stander_dict[i])
+            images_dict[img_idx]["upper_color"] = [
+                color_stander_dict[i]
+                for i in upper_color_list
+                if i in color_stander_dict
+            ]
+
         # lower_color
         if images_dict[img_idx]["lower_color"] != "Null":
             lower_color_list = images_dict[img_idx]["lower_color"]
             images_dict[img_idx]["lower_color"] = []
             for i in lower_color_list:
-                if i in color_stander_dict.keys():
+                if i in color_stander_dict:
                     images_dict[img_idx]["lower_color"].append(color_stander_dict[i])
         # bag
         if images_dict[img_idx]["bag"] != "Null":

@@ -18,7 +18,7 @@ def get_json_value_by_key(in_json, target_key, results=None):
             if key == target_key:  # 如果当前key与目标key相同就将当前key的value添加到输出列表
                 results.append(data)
 
-    elif isinstance(in_json, list) or isinstance(in_json, tuple):  # 如果输入数据格式为list或者tuple
+    elif isinstance(in_json, (list, tuple)):  # 如果输入数据格式为list或者tuple
         for data in in_json:  # 循环当前列表
             get_json_value_by_key(data, target_key, results=results)  # 回归列表的当前的元素
     return results
@@ -46,15 +46,17 @@ def algorhtmReq(img_file):
     key = "Isz8av-cOGPGWASSF57lp1l1L1JroyK5"
     secret = "jWqDp_3M_VTOPROnrR98U-_ul8uwPb_D"
 
-    boundary = '----------%s' % hex(int(time.time() * 1000))
-    data = []
-    data.append('--%s' % boundary)
-    data.append('Content-Disposition: form-data; name="%s"\r\n' % 'api_key')
-    data.append(key)
-    data.append('--%s' % boundary)
-    data.append('Content-Disposition: form-data; name="%s"\r\n' % 'api_secret')
-    data.append(secret)
-    data.append('--%s' % boundary)
+    boundary = f'----------{hex(int(time.time() * 1000))}'
+    data = [
+        f'--{boundary}',
+        'Content-Disposition: form-data; name="%s"\r\n' % 'api_key',
+        key,
+        f'--{boundary}',
+        'Content-Disposition: form-data; name="%s"\r\n' % 'api_secret',
+        secret,
+        f'--{boundary}',
+    ]
+
     # 图片处理
     # 图片要求
     # 图片格式：JPG(JPEG)，PNG
@@ -66,16 +68,33 @@ def algorhtmReq(img_file):
     contents = output.getvalue()
     output.close()
 
-    data.append('Content-Disposition: form-data; name="%s"; filename=" "' % 'image_file')
-    data.append('Content-Type: %s\r\n' % 'application/octet-stream')
+    data.extend(
+        (
+            'Content-Disposition: form-data; name="%s"; filename=" "'
+            % 'image_file',
+            'Content-Type: %s\r\n' % 'application/octet-stream',
+        )
+    )
+
     data.append(contents)
-    data.append('--%s' % boundary)
-    data.append('Content-Disposition: form-data; name="%s"\r\n' % 'return_landmark')
-    data.append('1')
-    data.append('--%s' % boundary)
-    data.append('Content-Disposition: form-data; name="%s"\r\n' % 'return_attributes')
-    data.append(
-        "gender,upper_body_cloth,lower_body_cloth")
+    data.extend(
+        (
+            f'--{boundary}',
+            'Content-Disposition: form-data; name="%s"\r\n'
+            % 'return_landmark',
+            '1',
+        )
+    )
+
+    data.extend(
+        (
+            f'--{boundary}',
+            'Content-Disposition: form-data; name="%s"\r\n'
+            % 'return_attributes',
+            "gender,upper_body_cloth,lower_body_cloth",
+        )
+    )
+
     data.append('--%s--\r\n' % boundary)
 
     for i, d in enumerate(data):
@@ -88,7 +107,7 @@ def algorhtmReq(img_file):
     req = urllib.request.Request(url=http_url, data=http_body)
 
     # header
-    req.add_header('Content-Type', 'multipart/form-data; boundary=%s' % boundary)
+    req.add_header('Content-Type', f'multipart/form-data; boundary={boundary}')
 
     try:
         # post data to server
@@ -106,10 +125,9 @@ def algorhtmReq(img_file):
     time.sleep(2)
     # 构建统一格式
     dict_value = get_json_value_by_key(datas, 'humanbodies', results=[])[0]  # 位置信息
-    result_list = []
     # 识别人数
     total_dict = {'total_num': len(dict_value)}
-    result_list.append(total_dict)
+    result_list = [total_dict]
     for i in dict_value:
         # 构建统一字段
         attributes_dict = {"upper_wear": "Null",
@@ -122,13 +140,15 @@ def algorhtmReq(img_file):
         position = i.pop('humanbody_rectangle')
         confidence = i.pop('confidence')
         result_dict = {
-            "position": [int(position['top'] / scale),
-                         int(position['left'] / scale),
-                         int(position['width'] / scale),
-                         int(position['height'] / scale)],
+            "position": [
+                int(position['top'] / scale),
+                int(position['left'] / scale),
+                int(position['width'] / scale),
+                int(position['height'] / scale),
+            ],
             "score": confidence,
-        }
-        result_dict.update(attributes_dict)
+        } | attributes_dict
+
         result_list.append(result_dict)
 
     result_list = json.dumps(result_list)

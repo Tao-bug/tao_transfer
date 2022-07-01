@@ -41,9 +41,7 @@ def parse_args():
                                  'img_show',   # plot attention
                                  'pkl_save'],  # save attention results as pickle file
                         default='no_att')
-    args = parser.parse_args()
-
-    return args
+    return parser.parse_args()
 
 
 def model_pred(data_input, model_name, img_name, network, att_mode):
@@ -67,10 +65,7 @@ def model_pred(data_input, model_name, img_name, network, att_mode):
             }
 
         if att_mode == 'pkl_save':
-            pickle.dump(
-                out_dict,
-                open('result/att_output_' + model_name + '.pkl', 'ab')  # append
-            )
+            pickle.dump(out_dict, open(f'result/att_output_{model_name}.pkl', 'ab'))
         else:
             att_plot(model_name, out_dict, att_mode)
 
@@ -96,7 +91,7 @@ def main():
              test_set,
              batch_size=1, shuffle=True, num_workers=2)
 
-    print('image number in test set: {}'.format(len(test_set)))
+    print(f'image number in test set: {len(test_set)}')
 
     mat = scio.loadmat("./data/PA-100K/annotation/annotation.mat")
     att = mat["attributes"]
@@ -116,11 +111,10 @@ def main():
             net = HP()
         elif args.m == 'MNet':
             net = MNet()
-    else:
-        if 'AF' in args.m:
-            net = AF(att_out=True, af_name=args.m)
-        elif args.m == 'HP':
-            net = HP(att_out=True)
+    elif 'AF' in args.m:
+        net = AF(att_out=True, af_name=args.m)
+    elif args.m == 'HP':
+        net = HP(att_out=True)
 
     net.load_state_dict(torch.load(path))
     print("para_load_done")
@@ -142,7 +136,7 @@ def main():
 
     if args.att == 'pkl_save':
         # overwrite the previous pickle file
-        pkl_file = 'result/att_output_' + args.m + '.pkl'
+        pkl_file = f'result/att_output_{args.m}.pkl'
         if os.path.exists(pkl_file):
             os.remove(pkl_file)
 
@@ -187,8 +181,8 @@ def main():
         Prec = Prec + Yandf/f
         Rec = Rec + Yandf/Y
         if count % 1 == 0:
-            print('test on {}th img'.format(count))
-        count = count + 1
+            print(f'test on {count}th img')
+        count += 1
 
     Accuracy = 0
     print(TP)
