@@ -18,7 +18,7 @@ def get_json_value_by_key(in_json, target_key, results=None):
             if key == target_key:  # 如果当前key与目标key相同就将当前key的value添加到输出列表
                 results.append(data)
 
-    elif isinstance(in_json, list) or isinstance(in_json, tuple):  # 如果输入数据格式为list或者tuple
+    elif isinstance(in_json, (list, tuple)):  # 如果输入数据格式为list或者tuple
         for data in in_json:  # 循环当前列表
             get_json_value_by_key(data, target_key, results=results)  # 回归列表的当前的元素
     return results
@@ -46,8 +46,7 @@ def PIL_to_base64(image):
     image.save(output, format='png')
     contents = output.getvalue()
     output.close()
-    string = base64.b64encode(contents)
-    return string
+    return base64.b64encode(contents)
 
 
 def algorhtmReq(img_file):
@@ -141,8 +140,8 @@ def algorhtmReq(img_file):
         result_dict = {
             "position": i,
             "score": "Null",
-        }
-        result_dict.update(attributes_dict)
+        } | attributes_dict
+
         result_list.append(result_dict)
 
     result_list = json.dumps(result_list, ensure_ascii=False)

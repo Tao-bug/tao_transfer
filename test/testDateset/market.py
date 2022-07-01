@@ -12,6 +12,9 @@ def market_open_mat(datafile):
                         "upgray", "upblue", "upgreen", "downblack", "downwhite", "downpink", "downpurple", "downyellow",
                         "downgray", "downblue", "downgreen", "downbrown"]
     all_data = {}
+    upper = ["upblack", "upwhite", "upred", "uppurple", "upyellow", "upgray", "upblue", "upgreen"]
+    downer = ["downblack", "downwhite", "downpink", "downpurple", "downyellow", "downgray", "downblue",
+              "downgreen", "downbrown"]
     for i in range(len(att[0][0])):
         if i == 0:
             market_attribute = ['image_index', 'age', 'backpack', 'bag', 'handbag', 'clothes', 'down', 'up', 'hair',
@@ -26,20 +29,13 @@ def market_open_mat(datafile):
         w = att[0][0][i]
 
         for j in range(len(w[0][0][0][0])):
-            a = []
-            data = {}
-            out_data = {}
             wq = len(w[0][0]) - 1
-            a.append(w[0][0][wq][0][j][0])
+            a = [w[0][0][wq][0][j][0]]
             for q in range(len(w[0][0]) - 1):
                 #
                 a.append(w[0][0][q][0][j])
-            for i in range(len(market_attribute)):
-                data[market_attribute[i]] = a[i]
-            # print(a)
-            # print(data)
-            # out_data['image_index'] = data['image_index']
-            out_data['clothing'] = "Null"
+            data = {market_attribute[i]: a[i] for i in range(len(market_attribute))}
+            out_data = {'clothing': "Null"}
             clothing = []
             if data["clothes"] == 1:
                 clothing.append("dress")
@@ -50,17 +46,11 @@ def market_open_mat(datafile):
             else:
                 clothing.append('short sleeve')
             out_data['clothing'] = clothing
-            upper = ["upblack", "upwhite", "upred", "uppurple", "upyellow", "upgray", "upblue", "upgreen"]
             upper_dic = {"upblack": 'black', "upwhite": 'white', "upred": 'red', "uppurple": 'purple',
                          "upyellow": 'yellow', "upgray": 'gray', "upblue": 'blue', "upgreen": 'green'}
             out_data['upper_color'] = "Null"
             for up in upper:
-                if data[up] == 2:
-                    out_data['upper_color'] = [upper_dic[up]]
-                else:
-                    out_data['upper_color'] = ["Null"]
-            downer = ["downblack", "downwhite", "downpink", "downpurple", "downyellow", "downgray", "downblue",
-                      "downgreen", "downbrown"]
+                out_data['upper_color'] = [upper_dic[up]] if data[up] == 2 else ["Null"]
             downer_dic = {"downblack": 'black', "downwhite": 'white', "downpink": 'pink', "downpurple": 'purple',
                           "downyellow": 'yellow', "downgray": 'gray', "downblue": 'blue', "downgreen": 'green',
                           "downbrown": 'brown'}
@@ -68,10 +58,7 @@ def market_open_mat(datafile):
             for down in downer:
                 if data[down] == 2:
                     out_data['lower_color'] = [downer_dic[down]]
-            if data["hat"] == 1:
-                out_data['headwear'] = "Null"
-            else:
-                out_data['headwear'] = ['hat']
+            out_data['headwear'] = "Null" if data["hat"] == 1 else ['hat']
             ue_bag = ["backpack", "bag", "handbag"]
             out_data['bag'] = "Null"
             for bbag in ue_bag:
@@ -79,7 +66,4 @@ def market_open_mat(datafile):
                     out_data['bag'] = [bbag]
             out_data['footwear'] = "Null"
             all_data[str(data['image_index'])] = out_data
-    # print(len(all_data))
-    # print(all_data.keys())
-    result_dict = json.dumps(all_data)
-    return result_dict
+    return json.dumps(all_data)

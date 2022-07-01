@@ -18,7 +18,7 @@ def get_json_value_by_key(in_json, target_key, results=None):
             if key == target_key:  # 如果当前key与目标key相同就将当前key的value添加到输出列表
                 results.append(data)
 
-    elif isinstance(in_json, list) or isinstance(in_json, tuple):  # 如果输入数据格式为list或者tuple
+    elif isinstance(in_json, (list, tuple)):  # 如果输入数据格式为list或者tuple
         for data in in_json:  # 循环当前列表
             get_json_value_by_key(data, target_key, results=results)  # 回归列表的当前的元素
     return results
@@ -65,19 +65,16 @@ def algorhtmReq(img_file):
     host = 'https://aip.baidubce.com/oauth/2.0/token?grant_type=client_credentials&client_id=P57FL8KbPcqFIIRWkLLYET3B&client_secret=4tk7hnTfm2E8iut56ITSciQ46klsRpgf'
     request_url = "https://aip.baidubce.com/rest/2.0/image-classify/v1/body_attr"
     response = requests.get(host)
-    access_token = None
-    if response:
-        access_token = response.json()["access_token"]
-
+    access_token = response.json()["access_token"] if response else None
     clint = HumanAnalysis()
     image, scale = clint.get_file_content(img_file)
     params = {"image": image}
-    request_url = request_url + "?access_token=" + access_token
+    request_url = f"{request_url}?access_token={access_token}"
     headers = {'content-type': 'application/x-www-form-urlencoded'}
-    response = requests.post(request_url, data=params, headers=headers)
-    datas = None
-    if response:
+    if response := requests.post(request_url, data=params, headers=headers):
         datas = json.loads(response.content)
+    else:
+        datas = None
     # print(datas)
 
     if "error_code" in datas.keys():
@@ -87,11 +84,9 @@ def algorhtmReq(img_file):
 
     # 构建统一格式
     dict_value = get_json_value_by_key(datas, 'person_info', results=[])[0]
-    result_list = []
     # 识别人数
     total_dict = {'total_num': len(dict_value)}
-    result_list.append(total_dict)
-
+    result_list = [total_dict]
     for i in dict_value:
         # 构建统一字段
         attributes_dict = {"upper_wear": "Null", "upper_color": "Null", "lower_wear": "Null", "lower_color": "Null",
@@ -100,13 +95,15 @@ def algorhtmReq(img_file):
             attributes_dict[key] = i['attributes'][key]['name']
 
         result_dict = {
-            "position": [int(i['location']['top']/scale),
-                         int(i['location']['left']/scale),
-                         int(i['location']['width']/scale),
-                         int(i['location']['height']/scale)],
+            "position": [
+                int(i['location']['top'] / scale),
+                int(i['location']['left'] / scale),
+                int(i['location']['width'] / scale),
+                int(i['location']['height'] / scale),
+            ],
             "score": i['location']['score'],
-        }
-        result_dict.update(attributes_dict)
+        } | attributes_dict
+
         result_list.append(result_dict)
 
     result_list = json.dumps(result_list, ensure_ascii=False)

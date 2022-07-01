@@ -38,9 +38,9 @@ def att_plot(model_nm, att_dict, plot_mode):
     for att_idx in range(att_level_num):
         for channel_idx in range(att_channel_num):
             if model_nm == 'HP':
-                att_pm = att_dict['AF'+str(att_idx+1)]
+                att_pm = att_dict[f'AF{str(att_idx+1)}']
                 att = np.uint8(255 * cv2.resize(att_pm[channel_idx], att_size) / np.max(att_pm))
-                # heat_map = cv2.applyColorMap(att, cv2.COLORMAP_SUMMER)
+                            # heat_map = cv2.applyColorMap(att, cv2.COLORMAP_SUMMER)
             else:
                 att = np.uint8(255 * cv2.resize(att_dict[model_nm][channel_idx], att_size) / np.max(att_dict[model_nm]))
 
@@ -52,16 +52,16 @@ def att_plot(model_nm, att_dict, plot_mode):
         plt.axis('off')
         plt.show()
     elif plot_mode == 'img_save':
-        if not os.path.exists("result/att_img_" + model_nm):
-            os.mkdir("result/att_img_" + model_nm)
+        if not os.path.exists(f"result/att_img_{model_nm}"):
+            os.mkdir(f"result/att_img_{model_nm}")
         plt.axis('off')
-        plt.savefig("result/att_img_" + model_nm + '/' + att_dict["filename"][:-4] + '.png')  # To save figure
+        plt.savefig(f"result/att_img_{model_nm}/" + att_dict["filename"][:-4] + '.png')
 
 
 if __name__ == "__main__":
     torch.cuda.set_device(3)
     model_name = 'HP'
-    output = pkl2list('result/att_output_' + model_name + '.pkl')
+    output = pkl2list(f'result/att_output_{model_name}.pkl')
     for att_dict in output:
         att_plot(model_name, att_dict, plot_mode='img_save')
 

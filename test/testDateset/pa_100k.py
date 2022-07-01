@@ -27,29 +27,22 @@ def pa_out(name_data, label_data, attributes_dict):
             # if label[i] == 1:
             #     print(i, attributes_dict[i])
             # clothing
-            if label[i] == 1 and attributes_dict[i] in stander_list_upper_wear + stander_list_lower_wear:
-                label_dict["clothing"].append(attributes_dict[i])
-            # upper_color
-            elif label[i] == 1 and attributes_dict[i] in stander_list_upperbodycolor:
-                label_dict["upper_color"] = []
-                label_dict["upper_color"].append(attributes_dict[i])
-            # lower_color
-            elif label[i] == 1 and attributes_dict[i] in stander_list_lowerbodycolor:
-                label_dict["lower_color"] = []
-                label_dict["lower_color"].append(attributes_dict[i])
-            # headwear
-            elif label[i] == 1 and attributes_dict[i] in stander_list_hat:
-                label_dict["headwear"] = []
-                label_dict["headwear"].append(attributes_dict[i])
-            # bag
-            elif label[i] == 1 and attributes_dict[i] in stander_list_bag:
-                label_dict["bag"] = []
-                label_dict["bag"].append(attributes_dict[i])
-            # footwear
-            elif label[i] == 1 and attributes_dict[i] in stander_list_footwear:
-                label_dict["footwear"] = []
-                label_dict["footwear"].append(attributes_dict[i])
-
+            if label[i] == 1:
+                if (
+                    attributes_dict[i]
+                    in stander_list_upper_wear + stander_list_lower_wear
+                ):
+                    label_dict["clothing"].append(attributes_dict[i])
+                elif attributes_dict[i] in stander_list_upperbodycolor:
+                    label_dict["upper_color"] = [attributes_dict[i]]
+                elif attributes_dict[i] in stander_list_lowerbodycolor:
+                    label_dict["lower_color"] = [attributes_dict[i]]
+                elif attributes_dict[i] in stander_list_hat:
+                    label_dict["headwear"] = [attributes_dict[i]]
+                elif attributes_dict[i] in stander_list_bag:
+                    label_dict["bag"] = [attributes_dict[i]]
+                elif attributes_dict[i] in stander_list_footwear:
+                    label_dict["footwear"] = [attributes_dict[i]]
         # label_dict
         # print(label_dict)
         for lab in label_dict["clothing"]:
@@ -70,9 +63,10 @@ def pa_open_mat(datafile):
     # print(data.keys())
 
     # 属性字典
-    attributes_dict = {}
-    for i in range(len(data["attributes"])):
-        attributes_dict[i] = data["attributes"][i][0][0]
+    attributes_dict = {
+        i: data["attributes"][i][0][0] for i in range(len(data["attributes"]))
+    }
+
     # print(attributes_dict)
 
     # test_images
@@ -92,7 +86,7 @@ def pa_open_mat(datafile):
 
     # 结果(为了输出顺序)
     images_dict = {}
-    images_dict.update(train_images_dict)
+    images_dict |= train_images_dict
     images_dict.update(val_images_dict)
     images_dict.update(test_images_dict)
     # print(images_list)

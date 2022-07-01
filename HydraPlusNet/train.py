@@ -57,15 +57,13 @@ def parse_args():
                         help='whether use multiple GPUs',
                         action='store_true')
 
-    args = parser.parse_args()
-
-    return args
+    return parser.parse_args()
 
 
 def checkpoint_save(args_m, state_dict, epoch):
     # if not os.path.exists("checkpoint/" + args_m):
     #     os.mkdir("checkpoint/" + args_m)
-    save_path = "./checkpoint/" + args_m + "_epoch_{}".format(epoch)
+    save_path = f"./checkpoint/{args_m}" + f"_epoch_{epoch}"
     torch.save(state_dict, save_path)
 
 
@@ -96,7 +94,7 @@ def main():
         batch_size=args.bs, shuffle=True, num_workers=args.nw
     )
 
-    print('image numbers {}'.format(len(data_set)))
+    print(f'image numbers {len(data_set)}')
 
     # define the training model
     if args.m == 'MNet':
@@ -173,10 +171,13 @@ def main():
                                 momentum=0.9)
 
     running_loss = 0.0
-    logging.basicConfig(level=logging.DEBUG,
-                        filename='./result/training_log/' + args.m + '.log',
-                        datefmt='%Y/%m/%d %H:%M:%S',
-                        format='%(asctime)s - %(message)s')
+    logging.basicConfig(
+        level=logging.DEBUG,
+        filename=f'./result/training_log/{args.m}.log',
+        datefmt='%Y/%m/%d %H:%M:%S',
+        format='%(asctime)s - %(message)s',
+    )
+
     logger = logging.getLogger(__name__)
     for epoch in range(start_epoch, 1000):
         for i, data in enumerate(imgLoader, 0):

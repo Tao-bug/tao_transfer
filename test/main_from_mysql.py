@@ -222,7 +222,7 @@ def start(path, dataset, url_name):
                 compare_dict[key] = "Null"
             elif url_attribute_dict[key] in dataset_attribute_dict[key]:
                 compare_dict[key] = 1
-            elif url_attribute_dict[key] not in dataset_attribute_dict[key]:
+            else:
                 compare_dict[key] = 0
         # upper_wear
         util("upper_wear")
@@ -251,7 +251,7 @@ def start(path, dataset, url_name):
 
 
 if __name__ == '__main__':
-    test_image_path = os.getcwd() + "/test_dataset"  # 查询图片的路径
+    test_image_path = f"{os.getcwd()}/test_dataset"
     dataset_name = "rap"  # 查询图片所属数据集
     # url_name = "kuangshi"  # "baidu" "jingdong" "kuangshi" "jiutian"   "meitu" "yingshi"
     url_name_list = ["baidu", "jingdong", "kuangshi", "meitu", "yingshi", "jiutian"]

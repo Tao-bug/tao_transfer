@@ -7,9 +7,7 @@ def peta_open_mat(datafile):
     # print(len(data))
 
     # 属性字典
-    attributes_dict = {}
-    for i in range(len(data[1])):
-        attributes_dict[i] = data[1][i][0][0]
+    attributes_dict = {i: data[1][i][0][0] for i in range(len(data[1]))}
     # print(attributes_dict)
 
     # 晒选列表
@@ -49,27 +47,22 @@ def peta_open_mat(datafile):
             # if label[i] == 1:
             #     print(i, attributes_dict[i])
             # clothing
-            if label[i] == 1 and attributes_dict[i] in stander_list_upper_wear + stander_list_lower_wear:
-                label_dict["clothing"].append(attributes_dict[i])
-            # upper_color
-            elif label[i] == 1 and attributes_dict[i] in stander_list_upperbodycolor:
-                label_dict["upper_color"].append(attributes_dict[i])
-            # lower_color
-            elif label[i] == 1 and attributes_dict[i] in stander_list_lowerbodycolor:
-                label_dict["lower_color"].append(attributes_dict[i])
-            # headwear
-            elif label[i] == 1 and attributes_dict[i] in stander_list_hat:
-                label_dict["headwear"] = []
-                label_dict["headwear"].append(attributes_dict[i])
-            # bag
-            elif label[i] == 1 and attributes_dict[i] in stander_list_bag:
-                label_dict["bag"] = []
-                label_dict["bag"].append(attributes_dict[i])
-            # footwear
-            elif label[i] == 1 and attributes_dict[i] in stander_list_footwear:
-                label_dict["footwear"] = []
-                label_dict["footwear"].append(attributes_dict[i])
-
+            if label[i] == 1:
+                if (
+                    attributes_dict[i]
+                    in stander_list_upper_wear + stander_list_lower_wear
+                ):
+                    label_dict["clothing"].append(attributes_dict[i])
+                elif attributes_dict[i] in stander_list_upperbodycolor:
+                    label_dict["upper_color"].append(attributes_dict[i])
+                elif attributes_dict[i] in stander_list_lowerbodycolor:
+                    label_dict["lower_color"].append(attributes_dict[i])
+                elif attributes_dict[i] in stander_list_hat:
+                    label_dict["headwear"] = [attributes_dict[i]]
+                elif attributes_dict[i] in stander_list_bag:
+                    label_dict["bag"] = [attributes_dict[i]]
+                elif attributes_dict[i] in stander_list_footwear:
+                    label_dict["footwear"] = [attributes_dict[i]]
         # label_dict
         # print(label_dict)
         for lab in label_dict["clothing"]:
